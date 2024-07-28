@@ -30,7 +30,8 @@ class FavouriteViewModel @Inject constructor(
         }
     }
 
-    private fun fetchFavoriteBooks() {
+    fun fetchFavoriteBooks() {
+        _favoriteBooks.value = emptyList()
         viewModelScope.launch {
             getFavoriteBooksUseCase().collect { result ->
                 _favoriteBooks.value = result

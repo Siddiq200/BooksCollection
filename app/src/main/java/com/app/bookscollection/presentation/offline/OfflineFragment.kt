@@ -33,6 +33,7 @@ class OfflineFragment : BaseFragment<FragmentBookListBinding>() {
 
     override fun setupUI(savedInstanceState: Bundle?) {
         mViewBinding.llSearch.toVisible()
+        mViewBinding.swiperefresh.isEnabled = false
         setupRecyclerView()
         setupSearchBar()
         observeViewModel()

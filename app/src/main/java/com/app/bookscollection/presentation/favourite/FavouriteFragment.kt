@@ -34,6 +34,7 @@ class FavouriteFragment : BaseFragment<FragmentBookListBinding>() {
 
     private fun observeViewModel() {
         viewModel.favoriteBooks.asLiveData().observe(viewLifecycleOwner){
+            mViewBinding.swiperefresh.isRefreshing = false
             adapter.updateList(it)
         }
     }
@@ -51,5 +52,12 @@ class FavouriteFragment : BaseFragment<FragmentBookListBinding>() {
 
         }
         mViewBinding.booksRV.adapter = adapter
+    }
+
+    override fun attachListener() {
+        super.attachListener()
+        mViewBinding.swiperefresh.setOnRefreshListener {
+            viewModel.fetchFavoriteBooks()
+        }
     }
 }
