@@ -18,7 +18,7 @@ class OfflineFragment : BaseFragment<FragmentBookListBinding>() {
     }
 
     override fun setupUI(savedInstanceState: Bundle?) {
-        mViewBinding.searchEditText.toVisible()
+        mViewBinding.llSearch.toVisible()
     }
 
 }

@@ -9,19 +9,28 @@
     <fragment
         android:id="@+id/action_search"
         android:name="com.app.bookscollection.presentation.search.SearchFragment"
-        android:label="SearchFragment"
+        android:label="Search"
         tools:layout="@layout/fragment_book_list"
         />
     <fragment
         android:id="@+id/action_downloads"
         android:name="com.app.bookscollection.presentation.offline.OfflineFragment"
-        android:label="OfflineFragment"
+        android:label="Downloads"
         tools:layout="@layout/fragment_book_list"
         />
     <fragment
         android:id="@+id/action_favorite"
         android:name="com.app.bookscollection.presentation.favourite.FavouriteFragment"
-        android:label="FavouriteFragment"
+        android:label="Favourites"
         tools:layout="@layout/fragment_book_list"
         />
+    <fragment
+        android:id="@+id/bookFragment"
+        android:name="com.app.bookscollection.presentation.books.BookFragment"
+        android:label="Book"
+        tools:layout="@layout/fragment_book">
+        <argument
+            android:name="book"
+            app:argType="com.app.bookscollection.domain.model.Book" />
+    </fragment>
 </navigation>

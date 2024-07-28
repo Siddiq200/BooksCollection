@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="book" type="com.app.bookscollection.domain.Book" />
+        <variable name="book" type="com.app.bookscollection.domain.model.Book" />
     </data>
 
    <androidx.cardview.widget.CardView
@@ -29,6 +29,19 @@
                app:layout_constraintTop_toTopOf="parent"
                app:layout_constraintBottom_toBottomOf="parent" />
 
+           <CheckBox
+               android:id="@+id/cbFavourite"
+               android:layout_width="24dp"
+               android:layout_height="24dp"
+               android:layout_alignParentEnd="true"
+               android:button="@drawable/ic_selector_favourite"
+               app:buttonTint="@drawable/tint_favourite"
+               android:checked="@{book.isFavorite}"
+               android:foregroundGravity="center"
+               android:gravity="center"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintTop_toTopOf="parent" />
+
            <TextView
                android:id="@+id/bookTitle"
                android:layout_width="0dp"
@@ -38,7 +51,7 @@
                android:textSize="18sp"
                android:textStyle="bold"
                app:layout_constraintStart_toEndOf="@id/bookImage"
-               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintEnd_toStartOf="@id/cbFavourite"
                app:layout_constraintTop_toTopOf="parent" />
 
            <TextView

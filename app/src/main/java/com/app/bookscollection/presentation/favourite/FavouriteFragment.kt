@@ -18,7 +18,7 @@ class FavouriteFragment : BaseFragment<FragmentBookListBinding>() {
     }
 
     override fun setupUI(savedInstanceState: Bundle?) {
-        mViewBinding.searchEditText.toGone()
+        mViewBinding.llSearch.toGone()
     }
 
 }

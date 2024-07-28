@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.orgJetbrainsKotlinKapt)
     alias(libs.plugins.kotlinParcelize)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.navigation.safeargs.kotlin)
 }
 
 android {
@@ -49,6 +51,17 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
 
+    //Paging
+    implementation(libs.androidx.paging)
+
+    //Local Db
+    implementation(libs.androidx.room)
+    kapt(libs.androidx.room.compiler)
+
+    //DI
+    implementation(libs.hilt)
+    kapt(libs.hilt.compiler)
+
     //Navigation
     implementation(libs.androidx.navigation.ui)
     implementation(libs.androidx.navigation.fragment)
@@ -57,6 +70,9 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
     implementation(libs.okhttp3.logging.interceptor)
+
+    //Image Loading
+    implementation(libs.glide)
 
     //Testing
     testImplementation(libs.junit)
