@@ -1,5 +1,6 @@
 package com.app.bookscollection.presentation.search
 
+import android.net.Network
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -18,6 +19,7 @@ import com.app.bookscollection.presentation.books.BooksLoadStateAdapter
 import com.app.bookscollection.utils.RemotePresentationState
 import com.app.bookscollection.utils.asRemotePresentationState
 import com.app.bookscollection.utils.extensions.hideKeyboard
+import com.app.bookscollection.utils.extensions.toGone
 import com.app.bookscollection.utils.extensions.toVisible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -44,6 +46,11 @@ class SearchFragment : BaseFragment<FragmentBookListBinding>() {
         setupSearchBar()
         searchBooks("")
 
+        if (!isNetworkAvailable()){
+            if (adapter.itemCount == 0){
+                mViewBinding.layoutNoInternet.root.toVisible()
+            }
+        }
     }
 
     private fun setupSearchBar() {
@@ -93,8 +100,6 @@ class SearchFragment : BaseFragment<FragmentBookListBinding>() {
                 val isListEmpty = loadState.refresh is LoadState.NotLoading && adapter.itemCount == 0
                 // show empty list
 //                emptyList.isVisible = isListEmpty
-                // Only show the list if refresh succeeds, either from the the local db or the remote.
-//                mViewBinding.booksRV.isVisible =  loadState.source.refresh is LoadState.NotLoading || loadState.mediator?.refresh is LoadState.NotLoading
                 // Show loading spinner during initial load or refresh.
                 mViewBinding.progressBar.isVisible = loadState.refresh is LoadState.Loading
 
@@ -119,6 +124,31 @@ class SearchFragment : BaseFragment<FragmentBookListBinding>() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.fetchBooks(query).collectLatest { pagingData ->
                 adapter.submitData(pagingData)
+                if (adapter.itemCount > 0){
+                    mViewBinding.layoutNoInternet.root.toGone()
+                }
+            }
+        }
+    }
+
+    override fun attachListener() {
+        super.attachListener()
+        mViewBinding.layoutNoInternet.btnDownloads.setOnClickListener {
+            findNavController().navigate(R.id.action_downloads)
+        }
+    }
+    override fun onConnectionAvailable(network: Network) {
+        super.onConnectionAvailable(network)
+        requireActivity().runOnUiThread {
+            mViewBinding.layoutNoInternet.root.toGone()
+        }
+    }
+
+    override fun onConnectionLost(network: Network) {
+        super.onConnectionLost(network)
+        if (adapter.itemCount == 0){
+            requireActivity().runOnUiThread {
+                mViewBinding.layoutNoInternet.root.toVisible()
             }
         }
     }
