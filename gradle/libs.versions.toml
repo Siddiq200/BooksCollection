@@ -6,6 +6,11 @@ kotlin = "1.9.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
+mockito = "3.0.0"
+coroutines_test = "1.4.3"
+core_test = "2.2.0"
+core_test_ktx = "1.6.1"
+fragment_test = "1.8.2"
 espressoCore = "3.6.1"
 appcompat = "1.7.0"
 material = "1.12.0"
@@ -27,8 +32,20 @@ glide = "4.16.0"
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
+core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "core_test" }
+
+core-testing-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "core_test_ktx" }
+fragment-testing = { group = "androidx.fragment", name = "fragment-testing", version.ref = "fragment_test" }
+
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+mockito = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
+kotlinx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines_test" }
+
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-espresso-idling-resource = { group = "androidx.test.espresso", name = "espresso-idling-resource", version.ref = "espressoCore" }
+
+hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
+
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }

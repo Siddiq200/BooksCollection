@@ -41,6 +41,9 @@ android {
     buildFeatures {
         dataBinding = true
     }
+    defaultConfig {
+        testInstrumentationRunner = "com.app.bookscollection.CustomTestRunner"
+    }
 }
 
 dependencies {
@@ -80,6 +83,20 @@ dependencies {
 
     //Testing
     testImplementation(libs.junit)
+    testImplementation(libs.mockito)
+    testImplementation(libs.kotlinx.coroutines)
+    testImplementation(libs.core.testing)
+    androidTestImplementation(libs.core.testing)
+    androidTestImplementation(libs.core.testing.ktx)
+
+
+    debugImplementation(libs.fragment.testing)
+    androidTestImplementation(libs.hilt.android.testing)
+    kaptAndroidTest(libs.hilt.compiler)
+
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.espresso.idling.resource)
+    implementation(libs.androidx.espresso.idling.resource)
+
 }

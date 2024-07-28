@@ -25,9 +25,20 @@ data class BookEntity(
 
 ) {
     fun toBook(): Book{
-        val bookshelvesType = object : TypeToken<List<String>>() {}.type
-        val bookshelves: List<String> = Gson().fromJson(this.bookshelves ?: "", bookshelvesType)
-        val formats: Book.Formats = Gson().fromJson(this.formats ?: "", Book.Formats::class.java)
+        val bookshelves: List<String> = try {
+            val bookshelvesType = object : TypeToken<List<String>>() {}.type
+             Gson().fromJson(this.bookshelves ?: "", bookshelvesType)
+        }catch (e: Exception){
+            listOf()
+        }
+
+        val formats: Book.Formats = try {
+            Gson().fromJson(this.formats ?: "", Book.Formats::class.java)
+        }catch (e: Exception){
+            Book.Formats()
+        }
+
+
         return Book(
             id,
             authors,

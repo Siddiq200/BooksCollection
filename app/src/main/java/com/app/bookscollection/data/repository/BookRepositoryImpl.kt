@@ -7,6 +7,7 @@ import com.app.bookscollection.data.model.Resource
 import com.app.bookscollection.di.CoroutinesNetwork
 import com.app.bookscollection.di.RxNetwork
 import com.app.bookscollection.domain.model.Book
+import com.app.bookscollection.utils.wrapEspressoIdlingResource
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.core.SingleObserver
@@ -42,19 +43,25 @@ open class BookRepositoryImpl @Inject constructor(
     }
 
     override suspend fun searchBooks(page: Int, query: String): Resource<BookResponse> {
-        val response = getBooks(page, query)
-        return if (response is Resource.Success && response.value.results.isNotEmpty()) {
-            val booksFromDb = bookDao.getAllBooks()
-            val favoriteBooks = booksFromDb.filter { it.isFavorite }
-            response.value.results = response.value.results.map { book ->
-                book.isFavorite = favoriteBooks.any { it.id == book.id }
-                book
+        wrapEspressoIdlingResource {
+            val response = getBooks(page, query)
+            return if (response is Resource.Success && response.value.results.isNotEmpty()) {
+                val booksFromDb = bookDao.getAllBooks()
+                val favoriteBooks = booksFromDb.filter { it.isFavorite }
+                response.value.results = response.value.results.map { book ->
+                    book.isFavorite = favoriteBooks.any { it.id == book.id }
+                    book
+                }
+                insertBooks(response.value.results)
+                response
+            }else{
+                response
             }
-            bookDao.insertBooks(response.value.results.map { it.toBookEntity() })
-            response
-        }else{
-            response
         }
+    }
+
+    private suspend fun insertBooks(books: List<Book>){
+        bookDao.insertBooks(books.map { it.toBookEntity() })
     }
 
     override suspend fun getFavoriteBooks(): Flow<List<Book>> {
