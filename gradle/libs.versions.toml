@@ -16,6 +16,8 @@ navigation = "2.7.7"
 room = "2.6.1"
 hilt = "2.48"
 
+rx = "3.0.2"
+rxjava = "3.1.5"
 retrofit = "2.9.0"
 okhttp3 = "4.11.0"
 
@@ -41,9 +43,12 @@ hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-rxjava = { group = "com.squareup.retrofit2", name = "adapter-rxjava3", version.ref = "retrofit" }
 retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 retrofit-converter-scalars = { group = "com.squareup.retrofit2", name = "converter-scalars", version.ref = "retrofit" }
 okhttp3-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp3" }
+rx-android = { group = "io.reactivex.rxjava3", name = "rxandroid", version.ref = "rx" }
+rx-java = { group = "io.reactivex.rxjava3", name = "rxjava", version.ref = "rxjava" }
 
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 

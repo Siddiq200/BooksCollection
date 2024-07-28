@@ -18,14 +18,14 @@ object RepositoryModule {
     @Provides
     @Singleton
     @RemoteRepository
-    fun provideBookRepository(apiService: BookApiService, bookDao: BookDao): BookRepository {
-        return BookRepositoryImpl(bookDao, apiService)
+    fun provideBookRepository(@CoroutinesNetwork apiService: BookApiService, @RxNetwork apiServiceRx: BookApiService, bookDao: BookDao): BookRepository {
+        return BookRepositoryImpl(bookDao, apiServiceRx, apiService)
     }
 
     @Provides
     @Singleton
     @LocalRepository
-    fun provideLocalBookRepository(apiService: BookApiService, bookDao: BookDao): BookRepository {
-        return BookRepositoryLocal(bookDao, apiService)
+    fun provideLocalBookRepository(@CoroutinesNetwork apiService: BookApiService, @RxNetwork apiServiceRx: BookApiService, bookDao: BookDao): BookRepository {
+        return BookRepositoryLocal(bookDao, apiServiceRx, apiService)
     }
 }

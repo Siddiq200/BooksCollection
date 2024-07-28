@@ -23,6 +23,7 @@ class BookPagingSource(
             }
 
             val response = repository.searchBooks(nextPageNumber, query)
+
             val books = (response as? Resource.Success)?.value?.results ?: arrayListOf()
             if (currentCoroutineContext().isActive.not()) {
                 return LoadResult.Error(CancellationException("Coroutine is cancelled"))

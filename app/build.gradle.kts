@@ -68,8 +68,12 @@ dependencies {
 
     //Network
     implementation(libs.retrofit)
+    implementation(libs.retrofit.rxjava)
     implementation(libs.retrofit.converter.gson)
     implementation(libs.okhttp3.logging.interceptor)
+
+    //Rx
+    implementation(libs.rx.android)
 
     //Image Loading
     implementation(libs.glide)
