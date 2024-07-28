@@ -1,12 +1,13 @@
 package com.app.bookscollection.data.repository
 
-import android.util.Log
 import com.app.bookscollection.data.api.BookApiService
 import com.app.bookscollection.data.db.BookDao
 import com.app.bookscollection.data.model.BookResponse
 import com.app.bookscollection.data.model.Resource
 import com.app.bookscollection.domain.model.Book
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -35,15 +36,9 @@ class BookRepositoryImpl @Inject constructor(
         }
     }
 
-    suspend fun getBooksFromDb(): List<Book> {
-        return withContext(Dispatchers.IO) {
-            bookDao.getAllBooks().map { it.toBook() }
-        }
-    }
-
-    override suspend fun getFavoriteBooks(): List<Book> {
-        return withContext(Dispatchers.IO) {
-            bookDao.getFavoriteBooks().map { it.toBook() }
+    override suspend fun getFavoriteBooks(): Flow<List<Book>> {
+        return bookDao.getFavoriteBooksFlow().map { bookEntities ->
+            bookEntities.map { it.toBook() }
         }
     }
 

@@ -1,9 +1,6 @@
 package com.app.bookscollection.presentation.search
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
@@ -11,16 +8,12 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.app.bookscollection.R
 import com.app.bookscollection.databinding.FragmentBookListBinding
-import com.app.bookscollection.domain.model.Book
 import com.app.bookscollection.presentation.base.BaseFragment
-import com.app.bookscollection.presentation.books.BookAdapter
+import com.app.bookscollection.presentation.books.BookPagedAdapter
 import com.app.bookscollection.presentation.books.BooksLoadStateAdapter
 import com.app.bookscollection.utils.RemotePresentationState
 import com.app.bookscollection.utils.asRemotePresentationState
@@ -28,7 +21,6 @@ import com.app.bookscollection.utils.extensions.hideKeyboard
 import com.app.bookscollection.utils.extensions.toVisible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
@@ -36,7 +28,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class SearchFragment : BaseFragment<FragmentBookListBinding>() {
 
-    private lateinit var adapter: BookAdapter
+    private lateinit var adapter: BookPagedAdapter
     private val viewModel: SearchViewModel by viewModels()
 
     override fun getBinding(
@@ -70,8 +62,8 @@ class SearchFragment : BaseFragment<FragmentBookListBinding>() {
 
     private fun setupRecyclerView() {
         val header = BooksLoadStateAdapter { adapter.retry() }
-        adapter = BookAdapter() { book, action ->
-            if (action == BookAdapter.ITEM_FAVOURITE){
+        adapter = BookPagedAdapter() { book, action ->
+            if (action == BookPagedAdapter.ITEM_FAVOURITE){
                 book.isFavorite = !book.isFavorite
                 viewModel.updateFavoriteStatus(book, book.isFavorite)
             }else{

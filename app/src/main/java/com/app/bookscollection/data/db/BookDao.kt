@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.app.bookscollection.data.model.BookEntity
 import com.app.bookscollection.domain.model.Book
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface BookDao {
@@ -26,6 +27,9 @@ interface BookDao {
 
     @Query("SELECT * FROM books WHERE isFavorite = 1")
     suspend fun getFavoriteBooks(): List<BookEntity>
+
+    @Query("SELECT * FROM books WHERE isFavorite = 1")
+    fun getFavoriteBooksFlow(): Flow<List<BookEntity>>
 
     @Query("UPDATE books SET isFavorite = :isFavorite WHERE id = :id")
     suspend fun updateFavoriteStatus(id: Int, isFavorite: Boolean)

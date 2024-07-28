@@ -4,6 +4,8 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.app.bookscollection.R
 import com.app.bookscollection.databinding.ItemBookBinding
@@ -11,16 +13,10 @@ import com.app.bookscollection.domain.model.Book
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 
-class BookAdapter(
-    private var data: List<Book>,
+class BookPagedAdapter(
     private var clickUnit: (Book, Int) -> Unit,
 ) :
-    RecyclerView.Adapter<BookAdapter.ViewHolder>() {
-
-    fun updateList(list: List<Book>) {
-        this.data = list
-        notifyDataSetChanged()
-    }
+    PagingDataAdapter<Book, BookPagedAdapter.ViewHolder>(BookDiffCallback()) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -32,13 +28,11 @@ class BookAdapter(
         return ViewHolder(itemView)
     }
 
-    override fun getItemCount() = data.count()
-
     override fun onBindViewHolder(
         holder: ViewHolder,
         position: Int
     ) {
-        data[position].let { book ->
+        getItem(position)?.let { book ->
             holder.bindData(book)
             holder.binding.cbFavourite.setOnClickListener {
                 clickUnit.invoke(book, ITEM_FAVOURITE)
@@ -84,4 +78,15 @@ class BookAdapter(
         const val ITEM_CLICK: Int = 0
         const val ITEM_FAVOURITE: Int = 1
     }
+
+    private class BookDiffCallback : DiffUtil.ItemCallback<Book>() {
+        override fun areItemsTheSame(oldItem: Book, newItem: Book): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Book, newItem: Book): Boolean {
+            return oldItem == newItem
+        }
+    }
+
 }
