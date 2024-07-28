@@ -11,8 +11,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class BookRepositoryImpl @Inject constructor(
-    private val bookDao: BookDao,
+open class BookRepositoryImpl @Inject constructor(
+    protected open val bookDao: BookDao,
     private val bookApiService: BookApiService
 ) : BaseRepository(), BookRepository {
 

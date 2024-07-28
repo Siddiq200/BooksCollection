@@ -12,6 +12,7 @@ import com.app.bookscollection.data.api.BookPagingSource
 import com.app.bookscollection.data.model.BookResponse
 import com.app.bookscollection.data.model.Resource
 import com.app.bookscollection.data.repository.BookRepository
+import com.app.bookscollection.di.RemoteRepository
 import com.app.bookscollection.domain.model.Book
 import com.app.bookscollection.domain.usecases.UpdateFavoriteStatusUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,14 +22,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val repository: BookRepository,
+    @RemoteRepository private val repository: BookRepository,
     private val updateFavoriteStatusUseCase: UpdateFavoriteStatusUseCase
 ) : ViewModel() {
 
     private var currentQuery: String = ""
-
-    private val _books: MutableLiveData<Resource<BookResponse>> = MutableLiveData()
-    val books: LiveData<Resource<BookResponse>> = _books
 
     fun fetchBooks(query: String): Flow<PagingData<Book>> {
         currentQuery = query
